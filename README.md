@@ -39,6 +39,7 @@ uver('1.2.3');
 
 ## Some notes
 
+- uver won't reformat the file in any way, indentation and new lines will be preserved
 - Given more than one out of `major`, `minor` and `patch`, only the "highest" will be updated.
 - Updating a component will reset to 0 all the ones on the right (1.1.1 -> 1.2.0 and not 1.2.1)
 
