@@ -21,15 +21,17 @@ module.exports = function(opts) {
 	var contents = fs.readFileSync(source, {encoding:'utf8'});
 
 	var newVer = null;
-	var updated = contents.replace(/"version"\s*:\s*"([\d.]+)([^"]*)"/, function(line, ver, suffix) {
+	var updated = contents.replace(/"version"\s*:\s*"(\d+\.[^"]+)"/, function(line, ver) {
 		// Set a fixed version number
 		if (opts.ver) {
 			newVer = opts.ver;
-			// Remove any suffix on the version
-			if (suffix) line = line.replace(suffix, '');
 		} else {
 			var vers = ver.split('.');
 			vers[index] = parseInt(vers[index] || 0, 10) + inc;
+			// Reset to 0 all the ones on the right
+			for (var i = index + 1; i < vers.length; i++) {
+				vers[i] = 0;
+			}
 			newVer = vers.join('.');
 		}
 		return line.replace(ver, newVer);

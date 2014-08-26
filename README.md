@@ -17,7 +17,7 @@ $ npm install uver
 ```js
 var uver = require('uver');
 var newVersion = uver({ /* options */ });
-// package.json patch version was incremented and saved
+// package.json version was incremented and saved
 ```
 
 `uver` can receive an object with options (none required):
@@ -32,12 +32,15 @@ var newVersion = uver({ /* options */ });
 - `output: './package.json.bkp'`: Where to save the file (default is override source)
 - `stream: process.stdout`: Output file to a stream instead of source
 
-You can also pass the `version` option as first argument:
+You can also pass the `version` directly as the argument:
 ```js
 uver('1.2.3');
 ```
 
-Given more than one out of `major`, `minor` and `patch`, only the left-most will be updated.
+## Some notes
+
+- Given more than one out of `major`, `minor` and `patch`, only the "highest" will be updated.
+- Updating a component will reset to 0 all the ones on the right (1.1.1 -> 1.2.0 and not 1.2.1)
 
 ## Why not npm version
 
@@ -48,6 +51,7 @@ One of the problems is it also:
 - Creates a tag for that commit
 
 There's currently no way to prevent these 2 from happening as well.
+
 Also, npm version doesn't allow reverting (decrementing) a version.
 
 ## Tests
@@ -58,6 +62,7 @@ $ npm test
 
 ## TODO
 - See if viable to rely on [semver](https://github.com/npm/node-semver) to update the version. It's much more solid but doesn't allow decrementing.
+- Support pre-release and similar?
 
 ## LICENSE
 

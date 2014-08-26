@@ -3,6 +3,8 @@ var fs = require('fs'),
 	uver = require('../'),
 	original;
 
+// Default version
+const DEF = '1.1.1';
 
 describe('uver', function() {
 	before(function() {
@@ -10,17 +12,21 @@ describe('uver', function() {
 		original = fs.readFileSync('../package.json', {encoding:'utf8'});
 		// Use module's package.json but normalize version to 1.1.1 for determinism
 		var ver = JSON.parse(original).version;
-		original = original.replace(ver, '1.1.1');
+		original = original.replace(ver, DEF);
 	});
 
-	function assert(opts, expected) {
-		fs.writeFileSync('package.json', original);
+	function assert(opts, expected, version) {
+		var source = version ? original.replace(DEF, version) : original;
+		fs.writeFileSync('package.json', source);
 
 		var newVer = uver(opts);
 		expect(expected).to.equal(newVer);
 
-		var saved = fs.readFileSync('package.json', {encoding:'utf8'});
-		expect(saved).to.equal(original.replace('1.1.1', expected));
+		if (expected) {
+			var saved = fs.readFileSync('package.json', {encoding:'utf8'});
+			var result = original.replace(DEF, expected);
+			expect(saved).to.equal(result);
+		}
 	}
 
 	it('should increment patch when no option is given', function() {
@@ -33,16 +39,16 @@ describe('uver', function() {
 	});
 
 	it('should increment minor when `minor` is true', function() {
-		assert({minor:true}, '1.2.1');
+		assert({minor:true}, '1.2.0');
 	});
 
 	it('should increment major when `major` is true', function() {
-		assert({major:true}, '2.1.1');
+		assert({major:true}, '2.0.0');
 	});
 
 	it('should increment based on `index` when given', function() {
-		assert({index:0}, '2.1.1');
-		assert({index:1}, '1.2.1');
+		assert({index:0}, '2.0.0');
+		assert({index:1}, '1.2.0');
 		assert({index:2}, '1.1.2');
 	});
 
@@ -51,25 +57,28 @@ describe('uver', function() {
 	});
 
 	it('should decrement when `revert` is true', function() {
-		assert({major:true, revert:true}, '0.1.1');
-		assert({minor:true, revert:true}, '1.0.1');
+		assert({major:true, revert:true}, '0.0.0');
+		assert({minor:true, revert:true}, '1.0.0');
 		assert({patch:true, revert:true}, '1.1.0');
+	});
+
+	it('should clear anything other than a number from versions', function() {
+		assert({minor:true}, '1.2.0', '1.1.1-rc2');
+		assert({patch:true}, '1.1.2', '1.1.1-rc2');
 	});
 
 	it('should set a fixed version when `ver` is given', function() {
 		assert({ver:'1.2.3'}, '1.2.3');
+		assert({ver:'1.2.3'}, '1.2.3', '1.1.1');
 	});
 
 	it('should set a fixed version when argument is a string', function() {
 		assert('1.2.3', '1.2.3');
 	});
 
-	it('should return null when version was not modified', function() {
-		var o = original;
-		// Simulate an invalid package.json
-		original = '{}';
-		assert('1.1.2', null);
-		original = o;
+	it('should return null when version was not found', function() {
+		// Simulate an invalid package.json version
+		assert('1.1.2', null, 'BAD_VERSION');
 	});
 
 	it('should read the specified file when `filename` is given', function() {
@@ -92,7 +101,7 @@ describe('uver', function() {
 				expect(file).to.equal(original);
 			}
 		};
-		assert({stream:stream, ver:'1.1.1'}, '1.1.1');
+		assert({stream:stream, ver:DEF}, DEF);
 		expect(called).to.be.true;
 	});
 

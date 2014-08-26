@@ -1,0 +1,6 @@
+1.0.1
+- Updating a version resets to 0 all the ones on the right
+- Any suffix on version (f.e -rc1) is wiped, always
+
+1.0.0
+- First Release
