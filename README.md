@@ -1,10 +1,10 @@
 # uver
 
-Update the version on package.json and other files
+Bump the version on package.json and other files
 
 ## CLI
 
-To update file versions from the command-line, check [uver-cli](https://github.com/flesler/uver-cli)
+To bump file versions from the command-line, check [uver-cli](https://github.com/flesler/uver-cli)
 
 ## Installation
 

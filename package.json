@@ -2,7 +2,7 @@
 	"name": "uver",
 	"author": "Ariel Flesler <aflesler@gmail.com>",
 	"version": "1.0.2",
-	"description": "Update the version on package.json and other files",
+	"description": "Bump the version on package.json and other files",
 	"keywords": ["version", "package", "json", "patch", "minor", "major", "release"],
 	"license": "MIT",
 	"homepage": "https://github.com/flesler/uver",
