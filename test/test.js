@@ -83,13 +83,13 @@ describe('uver', function() {
 
 	it('should read the specified file when `filename` is given', function() {
 		expect(function() {
-			uver({filename:'non-existent'})
+			uver({filename:'non-existent'});
 		}).to.throw(/ENOENT.+non-existent/);
 	});
 
 	it('should read from the specified folder when `root` is given', function() {
 		expect(function() {
-			uver({root:'root'})
+			uver({root:'root'});
 		}).to.throw(/ENOENT.+root.package\.json/);
 	});
 
@@ -103,6 +103,13 @@ describe('uver', function() {
 		};
 		assert({stream:stream, ver:DEF}, DEF);
 		expect(called).to.be.true;
+	});
+
+	it('should support JSDoc kind of version', function() {
+		var _original = original;
+		original = original.replace('"version": "1.1.1",', 'version 1.1.1');
+		assert({}, '1.1.2');
+		original = _original;
 	});
 
 	after(function() {

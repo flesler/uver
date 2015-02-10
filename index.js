@@ -21,7 +21,7 @@ module.exports = function(opts) {
 	var contents = fs.readFileSync(source, {encoding:'utf8'});
 
 	var newVer = null;
-	var updated = contents.replace(/"version"\s*:\s*"(\d+\.[^"]+)"/, function(line, ver) {
+	var updated = contents.replace(/version[" :=]+(\d+\.[^\s"]+)/, function(line, ver) {
 		// Set a fixed version number
 		if (opts.ver) {
 			newVer = opts.ver;
