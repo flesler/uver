@@ -30,7 +30,7 @@ var newVersion = uver({ /* options */ });
 - `filename: 'bower.json'`: Filename of the source (default is package.json)
 - `ver: '1.2.3'`: Specify a fixed version
 - `output: './package.json.bkp'`: Where to save the file (default is override source)
-- `stream: process.stdout`: Output file to a stream instead of source
+- `stream: process.stdout`: Output file to a stream instead of output or source
 
 You can also pass the `version` directly as the argument:
 ```js
