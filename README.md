@@ -26,7 +26,7 @@ var newVersion = uver({ /* options */ });
 - `major: true`: Update major version
 - `index: 1`: Update the version on the specified index (0 for major)
 - `revert: true`: Decrement instead of increment
-- `root: './files'`: Where to look for the source file (default is $CWD)
+- `root: './files'`: Where to look for the source file (default is `process.cwd()`)
 - `filename: 'bower.json'`: Filename of the source (default is package.json)
 - `ver: '1.2.3'`: Specify a fixed version
 - `output: './package.json.bkp'`: Where to save the file (default is override source)
