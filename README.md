@@ -49,13 +49,14 @@ uver('1.2.3');
 
 [npm version](https://www.npmjs.org/doc/cli/npm-version.html) is pretty cool and I used it as a reference to write this module.
 
-One of the problems is it also:
-- Creates a commit
-- Creates a tag for that commit
+By default it also creates a commit and a tag. You can skip both with `--no-git-tag-version` (or `--git-tag-version=false`) when bumping, for example `npm version patch --no-git-tag-version`. Running `npm version` without a bump argument just prints `process.versions`, which is easy to mistake for a failed flag.
 
-There's currently no way to prevent these 2 from happening as well.
-
-Also, npm version doesn't allow reverting (decrementing) a version.
+uver is still useful because it:
+- Allows reverting (decrementing) a version
+- Can update files other than package.json
+- Can write to another file or stdout
+- Works as a library inside your project
+- Does not reformat package.json (npm version does)
 
 ## Tests
 
